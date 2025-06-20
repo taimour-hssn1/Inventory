@@ -1,0 +1,50 @@
+.sidebar {
+  width: 250px; /* Adjust width as needed */
+  background-color: #f0f2f5; /* Light background color similar to the image */
+  height: 100vh; /* Full height of the viewport */
+  padding-top: 20px;
+  margin-right: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 5px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333; /* Darker text color */
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar a:hover {
+  background-color: #e0e2e5; /* Slightly darker on hover */
+  color: #007bff; /* Blue text on hover */
+}
+
+.sidebar li.active a {
+  background-color: #e0e2e5; /* Background for active item */
+  color: #007bff; /* Blue text for active item */
+  font-weight: bold;
+}
+
+.sidebar .icon {
+  margin-right: 15px;
+  font-size: 20px; /* Adjust icon size */
+  color: #007bff; /* Blue icon color */
+}
+
+.sidebar li.active .icon {
+    color: #007bff; /* Ensure active icon stays blue */
+}

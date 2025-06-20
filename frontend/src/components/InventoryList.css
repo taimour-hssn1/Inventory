@@ -1,0 +1,46 @@
+.inventory-list-container {
+  margin-top: 20px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Allows horizontal scrolling on small screens */
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.inventory-table th,
+.inventory-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.inventory-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #555;
+}
+
+.inventory-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.delete-item-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  background-color: #dc3545; /* Red */
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.delete-item-button:hover {
+  background-color: #c82333;
+}

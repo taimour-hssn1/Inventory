@@ -1,0 +1,55 @@
+/* src/CustomerControls.css */
+
+.customer-controls-container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 15px; /* Space between the search bar and the add customer row */
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.search-input {
+  width: 100%; /* Make search input take full width */
+  /* Other styles like padding, border, etc. will come from App.css global rules */
+}
+
+.add-customer-row {
+  display: flex; /* Make this row a flex container */
+  gap: 15px; /* Space between input and button */
+  align-items: center;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+.new-customer-input {
+  flex: 1; /* Allow the input to grow */
+  min-width: 200px; /* Ensure input doesn't become too small */
+  /* Other styles like padding, border, etc. will come from App.css global rules */
+}
+
+.add-customer-button {
+  padding: 12px 20px;
+  background-color: #007bff; /* Blue button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s ease;
+}
+
+.add-customer-button:hover {
+  background-color: #0056b3;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 600px) {
+  .add-customer-row {
+    flex-direction: column; /* Stack items vertically on small screens */
+    align-items: stretch; /* Stretch items to fill width */
+  }
+
+  .add-customer-row .add-customer-button {
+    width: 100%; /* Make button full width on small screens */
+  }
+}
