@@ -4,7 +4,7 @@ import CustomerPage from './CustomerPage';
 import InventoryPage from './InventoryPage';
 import '../App.css'; // You can rename this to Dashboard.css if needed
 
-const Dashboard = () => {
+const Dashboard = ({ setToken }) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState('Home');
 
   const handleMenuItemClick = (itemName) => {
@@ -71,7 +71,7 @@ const Dashboard = () => {
 
   return (
     <div className="App">
-      <Sidebar activeItem={selectedMenuItem} onMenuItemClick={handleMenuItemClick} />
+      <Sidebar activeItem={selectedMenuItem} onMenuItemClick={handleMenuItemClick} setToken={setToken} />
       <main className="main-content">
         {renderContent()}
       </main>

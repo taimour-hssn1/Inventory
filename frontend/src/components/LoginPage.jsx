@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
-const LoginPage = () => {
+const LoginPage = ({ setToken }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,7 +13,9 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:8000/api/token/', { username, password });
-      localStorage.setItem('token', res.data.token); // store token
+      localStorage.setItem('access', res.data.access); // store access token
+      localStorage.setItem('refresh', res.data.refresh); // optionally store refresh token
+      setToken(res.data.access); // update app state
       navigate('/dashboard');
     } catch (err) {
       setError('Invalid username or password');

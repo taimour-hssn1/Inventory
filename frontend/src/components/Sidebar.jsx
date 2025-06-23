@@ -13,7 +13,8 @@ import { useNavigate } from 'react-router-dom'; // <--- Make sure this is import
 // Props:
 // - activeItem: string (the name of the currently active menu item, e.g., 'Customer')
 // - onMenuItemClick: function (callback when a menu item is clicked)
-const Sidebar = ({ activeItem, onMenuItemClick }) => {
+// - setToken: function (callback to update app state)
+const Sidebar = ({ activeItem, onMenuItemClick, setToken }) => {
   const navigate = useNavigate(); // <--- Initialize the useNavigate hook here!
 
   const sidebarItems = [
@@ -27,7 +28,9 @@ const Sidebar = ({ activeItem, onMenuItemClick }) => {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove token from local storage
+    localStorage.removeItem('access'); // Remove access token from local storage
+    localStorage.removeItem('refresh'); // Remove refresh token from local storage
+    setToken(null); // update app state
     navigate('/', { replace: true }); // Redirect to login page and clear history
   };
 
