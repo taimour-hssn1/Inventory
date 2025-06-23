@@ -1,0 +1,120 @@
+/* Basic styling for the entire body */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6); /* Soft gradient background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* Container for the login page */
+.login-page {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box; /* Include padding in width */
+    animation: fadeIn 1s ease-out; /* Fade-in animation */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Heading for the login form */
+.login-page h2 {
+    margin-bottom: 30px;
+    color: #4a4a4a;
+    font-size: 2em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Error message styling */
+.login-page p {
+    color: #e74c3c; /* Red for errors */
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+/* Form styling */
+.login-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between form elements */
+}
+
+/* Input fields */
+.login-page input[type="text"],
+.login-page input[type="password"] {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 14px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: all 0.3s ease; /* Smooth transition for focus */
+    box-sizing: border-box;
+}
+
+.login-page input[type="text"]:focus,
+.login-page input[type="password"]:focus {
+    border-color: #71b7e6; /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(113, 183, 230, 0.3); /* Soft glow */
+    outline: none;
+}
+
+/* Login button */
+.login-page button {
+    background-color: #9b59b6; /* Purple button */
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.login-page button:hover {
+    background-color: #8e44ad; /* Darker purple on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.login-page button:active {
+    transform: translateY(0); /* Return to normal on click */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .login-page {
+        padding: 30px;
+        margin: 20px;
+    }
+
+    .login-page h2 {
+        font-size: 1.8em;
+    }
+
+    .login-page input[type="text"],
+    .login-page input[type="password"],
+    .login-page button {
+        padding: 12px 10px;
+        font-size: 1em;
+    }
+}
