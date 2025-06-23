@@ -3,7 +3,7 @@ from rest_framework.response import Response # type: ignore
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .serializers import LoginSerializer
+from .serializers import LoginSerializer, OrderDispatchSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -39,5 +39,27 @@ class LoginApi(APIView):
                     'refresh': tokens['refresh']
                 }, status=status.HTTP_200_OK)
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderDispatchApi(APIView):
+    serializer_class = OrderDispatchSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            try:
+                purchase = serializer.save()
+                return Response({
+                    'message': 'Order dispatched successfully',
+                    'order_id': purchase.id,
+                    'customer_name': purchase.customer.name,
+                    'total_amount': purchase.total_amount,
+                    'is_paid': purchase.is_paid
+                }, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({
+                    'message': f'Error creating order: {str(e)}'
+                }, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
