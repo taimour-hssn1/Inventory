@@ -1,5 +1,14 @@
 from rest_framework import serializers
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import authenticate
 from .models import Item, Customer, Purchase, PurchaseItem
+from django.contrib.auth.models import User
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:

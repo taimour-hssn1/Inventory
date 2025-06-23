@@ -25,9 +25,6 @@ SECRET_KEY = "django-insecure-7dl#fm8!++lyt*g504d2ob==s#i#99ktq84g5#5#^5qo)de9z9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,10 +34,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "corsheaders",
     "rest_framework", 
+    'rest_framework.authtoken',
+    "corsheaders",
     "api",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -51,7 +50,14 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
@@ -76,6 +82,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "mysite.wsgi.application"
+
+
 
 
 # Database
@@ -127,5 +135,3 @@ STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
