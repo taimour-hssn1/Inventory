@@ -24,11 +24,12 @@ const LoginPage = ({ setToken }) => {
 
   return (
     <div className="login-page">
-      <h2>Inventory System Login</h2>
+      <h2>Taimour Traders</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <input
           type="text"
+          class="input-field"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -37,6 +38,7 @@ const LoginPage = ({ setToken }) => {
         <input
           type="password"
           placeholder="Password"
+          class="input-field"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required

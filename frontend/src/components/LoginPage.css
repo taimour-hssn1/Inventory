@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #71b7e6, #9b59b6); /* Soft gradient background */
+    background: linear-gradient(135deg, #232526 0%, #1e272e 60%, #283e51 100%); /* Dark, modern gradient */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,15 +12,17 @@ body {
 
 /* Container for the login page */
 .login-page {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    background: rgba(30, 39, 46, 0.95); /* Match input focus background, dark and semi-transparent */
+    color: #fff;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     text-align: center;
     width: 100%;
-    max-width: 400px;
-    box-sizing: border-box; /* Include padding in width */
-    animation: fadeIn 1s ease-out; /* Fade-in animation */
+    max-width: clamp(350px, 90vw, 500px); /* Increased width */
+    box-sizing: border-box;
+    animation: fadeIn 1s ease-out;
+    border: 1.5px solid #4ecdc4;
 }
 
 @keyframes fadeIn {
@@ -36,18 +38,19 @@ body {
 
 /* Heading for the login form */
 .login-page h2 {
-    margin-bottom: 30px;
-    color: #4a4a4a;
-    font-size: 2em;
-    font-weight: 600;
+    margin-bottom: clamp(1.2rem, 4vw, 2rem);
+    color: #4ecdc4; /* Match input focus border color */
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 700;
     letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(78,205,196,0.08);
 }
 
 /* Error message styling */
 .login-page p {
-    color: #e74c3c; /* Red for errors */
-    margin-bottom: 20px;
-    font-size: 0.95em;
+    color: #e74c3c;
+    margin-bottom: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(0.9em, 2vw, 1.1em);
     font-weight: 500;
 }
 
@@ -55,66 +58,70 @@ body {
 .login-page form {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Space between form elements */
+    gap: clamp(0.4rem, 1vw, 0.8rem); /* Reduced gap between fields */
 }
 
 /* Input fields */
 .login-page input[type="text"],
 .login-page input[type="password"] {
-    width: calc(100% - 20px); /* Adjust for padding */
-    padding: 14px 10px;
-    border: 1px solid #ccc;
+    width: 100%;
+    padding: clamp(0.8rem, 2vw, 1.2rem) clamp(0.6rem, 2vw, 1rem);
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid #4ecdc4;
     border-radius: 8px;
-    font-size: 1.1em;
-    transition: all 0.3s ease; /* Smooth transition for focus */
-    box-sizing: border-box;
+    color: #fff;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: 0.8rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.login-page input[type="text"]::placeholder,
+.login-page input[type="password"]::placeholder {
+    color: #b2dfdb;
+    opacity: 1;
 }
 
 .login-page input[type="text"]:focus,
 .login-page input[type="password"]:focus {
-    border-color: #71b7e6; /* Highlight on focus */
-    box-shadow: 0 0 0 3px rgba(113, 183, 230, 0.3); /* Soft glow */
     outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 2px #4ecdc4, 0 0 20px #4ecdc4;
+    background: #1e272e;
+    transform: translateY(-2px);
 }
 
 /* Login button */
 .login-page button {
-    background-color: #9b59b6; /* Purple button */
-    color: white;
-    padding: 14px 20px;
+    background: linear-gradient(90deg, #4ecdc4 0%, #556270 100%);
+    color: #fff;
+    padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 4vw, 2rem);
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1.2em;
-    font-weight: 600;
+    font-size: clamp(1.1em, 3vw, 1.3em);
+    font-weight: 700;
     letter-spacing: 0.5px;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 8px rgba(78,205,196,0.08);
+    transition: background 0.3s, transform 0.2s;
 }
 
 .login-page button:hover {
-    background-color: #8e44ad; /* Darker purple on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background: linear-gradient(90deg, #43b9a8 0%, #3a4750 100%);
+    transform: translateY(-2px);
 }
 
 .login-page button:active {
-    transform: translateY(0); /* Return to normal on click */
+    transform: translateY(0);
 }
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .login-page {
-        padding: 30px;
+        padding: clamp(1rem, 6vw, 2rem);
         margin: 20px;
     }
-
     .login-page h2 {
-        font-size: 1.8em;
-    }
-
-    .login-page input[type="text"],
-    .login-page input[type="password"],
-    .login-page button {
-        padding: 12px 10px;
-        font-size: 1em;
+        font-size: clamp(1.2em, 5vw, 1.8em);
     }
 }
