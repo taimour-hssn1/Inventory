@@ -3,7 +3,8 @@ from rest_framework.response import Response # type: ignore
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer
+from .models import Customer, Item
+from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer, CustomerSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -44,31 +45,9 @@ class LoginApi(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrderDispatchApi(APIView):
-    serializer_class = OrderDispatchSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            try:
-                purchase = serializer.save()
-                return Response({
-                    'message': 'Order dispatched successfully',
-                    'order_id': purchase.id,
-                    'customer_name': purchase.customer.name,
-                    'total_amount': purchase.total_amount,
-                    'is_paid': purchase.is_paid
-                }, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                return Response({
-                    'message': f'Error creating order: {str(e)}'
-                }, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class AddItem(APIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = ItemSerializer
-    # permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -99,6 +78,71 @@ class EditItem(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'Item updated successfully', 'item': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AddCustomer(APIView):
+    serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            customer = serializer.save()
+            return Response({
+                'customer_name' : customer.name,
+                'phone' : customer.phone,
+                'address' : customer.address
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EditCustomer(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CustomerSerializer
+
+    def put(self, request, pk):
+        customer = get_object_or_404(Customer, pk=pk)
+        serializer = self.serializer_class(customer, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message' : "Customer updated Successfully",
+                'customer' : serializer.data
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        customer = get_object_or_404(Customer, pk=pk)
+        serializer = self.serializer_class(customer, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message' : "Customer updated Successfully",
+                'customer' : serializer.data
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+class OrderDispatchApi(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderDispatchSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            try:
+                purchase = serializer.save()
+                return Response({
+                    'message': 'Order dispatched successfully',
+                    'order_id': purchase.id,
+                    'customer_name': purchase.customer.name,
+                    'total_amount': purchase.total_amount,
+                    'is_paid': purchase.is_paid
+                }, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({
+                    'message': f'Error creating order: {str(e)}'
+                }, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
