@@ -3,10 +3,12 @@ from rest_framework.response import Response # type: ignore
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .serializers import LoginSerializer, OrderDispatchSerializer
+from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 
 
 @api_view(['GET'])
@@ -44,6 +46,7 @@ class LoginApi(APIView):
 
 class OrderDispatchApi(APIView):
     serializer_class = OrderDispatchSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -63,3 +66,39 @@ class OrderDispatchApi(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class AddItem(APIView):
+    serializer_class = ItemSerializer
+    # permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            item = serializer.save()
+            return Response({
+                    'message': 'Item added successfully',
+                    'item_id': item.id,
+                    'item_name': item.name,
+                    'total_quantity': item.quantity,
+                }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class EditItem(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ItemSerializer
+
+    def put(self, request, pk):
+        item = get_object_or_404(Item, pk=pk)
+        serializer = self.serializer_class(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Item updated successfully', 'item': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        item = get_object_or_404(Item, pk=pk)
+        serializer = self.serializer_class(item, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Item updated successfully', 'item': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    

@@ -9,7 +9,7 @@ from django.contrib.auth.models import AbstractUser
 class Item(models.Model):
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    remaining_quantity = models.IntegerField()
+    quantity = models.IntegerField()
     quantity_per_container = models.IntegerField()
 
     def __str__(self):
