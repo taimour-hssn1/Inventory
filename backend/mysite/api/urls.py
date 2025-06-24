@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import hello, LoginApi, OrderDispatchApi, AddItem, EditItem, AddCustomer # Make sure `hello` is defined in views.py
+from .views import * 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -13,6 +13,8 @@ urlpatterns = [
     path('edit-item/<int:pk>/', EditItem.as_view(), name='edit-item'),
     path('add-customer/', AddCustomer.as_view(), name='add-customer'),
     path('edit-customer/<int:pk>/', EditCustomer.as_view(), name='edit-customer'),
+    path('customers/', CustomerListApi.as_view(), name='customer-list'),
+    path('items/', ItemListApi.as_view(), name='item-list'),
 
 
 ]

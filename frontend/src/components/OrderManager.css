@@ -1,0 +1,28 @@
+/* src/components/OrderManager.css */
+.order-manager-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1200px; /* Wider to accommodate two columns */
+  margin: 20px auto;
+  background-color: #f4f7f6;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.order-manager-container h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+}
+
+.content-wrapper {
+  grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+}
+
+.component-separator {
+  border: none;
+  border-top: 2px dashed #d1d9dd;
+  margin: 40px 0;
+  grid-column: 1 / -1; /* Spans across all columns in grid */
+}

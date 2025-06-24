@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import CustomerPage from './CustomerPage';
+import OrderManager from "./OrderManager";
 import InventoryPage from './InventoryPage';
 import '../App.css'; // You can rename this to Dashboard.css if needed
 
@@ -25,12 +26,7 @@ const Dashboard = ({ setToken }) => {
       case 'Inventory':
         return <InventoryPage />;
       case 'Orders':
-        return (
-          <div className="page-content">
-            <h1>Order Management</h1>
-            <p>Content for Orders goes here.</p>
-          </div>
-        );
+        return <OrderManager />;
       case 'Revenue':
         return (
           <div className="page-content">
