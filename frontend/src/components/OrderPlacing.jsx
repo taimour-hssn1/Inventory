@@ -1,7 +1,7 @@
 // src/components/OrderPlacing.jsx
 
 import React, { useState } from 'react';
-// import { customers, items } from '../assets/dummy'; // Assuming dummyData.js
+import { customers, items } from '../assets/dummy'; // Assuming dummyData.js
 import './OrderPlacing.css'; // Shared styling with OrderRecords for overall layout if needed
 
 const OrderPlacing = ({ onPlaceOrder }) => {

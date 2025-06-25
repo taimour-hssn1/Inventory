@@ -1,75 +1,23 @@
-import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import CustomerPage from './CustomerPage';
-import OrderManager from "./OrderManager";
 import InventoryPage from './InventoryPage';
-import '../App.css'; // You can rename this to Dashboard.css if needed
+import OrderManager from './OrderManager';
+import '../app.css'; // Dashboard specific styles
 
 const Dashboard = ({ setToken }) => {
-  const [selectedMenuItem, setSelectedMenuItem] = useState('Home');
-
-  const handleMenuItemClick = (itemName) => {
-    setSelectedMenuItem(itemName);
-  };
-
-  const renderContent = () => {
-    switch (selectedMenuItem) {
-      case 'Home':
-        return (
-          <div className="page-content">
-            <h1>Welcome Home!</h1>
-            <p>Select an option from the sidebar to navigate.</p>
-          </div>
-        );
-      case 'Customer':
-        return <CustomerPage />;
-      case 'Inventory':
-        return <InventoryPage />;
-      case 'Orders':
-        return <OrderManager />;
-      case 'Revenue':
-        return (
-          <div className="page-content">
-            <h1>Revenue Dashboard</h1>
-            <p>Content for Revenue goes here.</p>
-          </div>
-        );
-      case 'Growth':
-        return (
-          <div className="page-content">
-            <h1>Growth Analytics</h1>
-            <p>Content for Growth goes here.</p>
-          </div>
-        );
-      case 'Report':
-        return (
-          <div className="page-content">
-            <h1>Reports Section</h1>
-            <p>Content for Reports goes here.</p>
-          </div>
-        );
-      case 'Settings':
-        return (
-          <div className="page-content">
-            <h1>Application Settings</h1>
-            <p>Content for Settings goes here.</p>
-          </div>
-        );
-      default:
-        return (
-          <div className="page-content">
-            <h1>Page Not Found</h1>
-            <p>Please select a valid option from the sidebar.</p>
-          </div>
-        );
-    }
-  };
-
   return (
     <div className="App">
-      <Sidebar activeItem={selectedMenuItem} onMenuItemClick={handleMenuItemClick} setToken={setToken} />
+      <Sidebar setToken={setToken} />
       <main className="main-content">
-        {renderContent()}
+        <Routes>
+          <Route path="/" element={<h1 className='page-title'>Welcome to the Dashboard</h1>} />
+          <Route path="/" element={<h1 className='page-title'>Welcome Home!</h1>} />
+          <Route path="customer" element={<CustomerPage />}/>
+          <Route path="inventory" element={<InventoryPage />} />
+          <Route path="orders" element={<OrderManager />} />
+          <Route path="*" element={<h1 className='page-title'>404 - Page Not Found in Dashboard</h1>} />
+        </Routes>
       </main>
     </div>
   );

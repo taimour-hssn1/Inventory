@@ -1,18 +1,23 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f4f7f6; /* Light grey background */
-  overflow: hidden; /* Prevent body scrollbar if content is scrolled inside main-content */
+  overflow: auto; /* Prevent body scrollbar if content is scrolled inside main-content */
 }
 
 .App {
   display: flex; /* Makes sidebar and main-content sit side-by-side */
   min-height: 100vh; /* Ensures the app takes up the full height of the viewport */
   width: 100vw; /* Ensures the app takes up the full width of the viewport */
+}
+
+.page-title {
+  color: #e7eaee; /* Blue */
+  font-size: 2.5rem; /* Optional: make it stand out */
 }
 
 .main-content {
@@ -46,7 +51,8 @@ body {
 
 input,
 textarea,
-select { /* Include select elements if you have them and want similar styling */
+select {
+  /* Include select elements if you have them and want similar styling */
   background-color: #ffffff; /* Force white background for all input types */
   color: #333333; /* Dark text color for readability on white */
   border: 1px solid #ccc; /* A subtle light gray border */

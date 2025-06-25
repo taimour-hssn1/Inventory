@@ -1,85 +1,10 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f7f6; /* Light grey background */
-  overflow: hidden; /* Prevent body scrollbar if content is scrolled inside main-content */
-}
-
-.App {
-  display: flex; /* Makes sidebar and main-content sit side-by-side */
-  min-height: 100vh; /* Ensures the app takes up the full height of the viewport */
-  width: 100vw; /* Ensures the app takes up the full width of the viewport */
-}
-
 .main-content {
-  flex-grow: 1; /* This is key: it makes main-content take all available horizontal space */
-  padding: 20px; /* Add some padding around the content */
-  overflow-y: auto; /* Allows vertical scrolling within this area if content overflows */
-  display: flex; /* Make it a flex container to potentially center its children or spread them */
-  flex-direction: column; /* Stack children vertically */
-  /* Remove max-width here if it's present, as it restricts expansion */
-  /* max-width: 800px; /* REMOVE THIS if it was here, or increase significantly */
-  /* margin: 20px auto; /* REMOVE THIS if it was here, as it centers content */
+  padding: 20px;
+  background-color: white;
+  color: black;
 }
 
-/* Base style for all page containers (CustomerPage, InventoryPage, etc.) */
-/* Apply this to .customer-page-container, .inventory-page-container */
-.page-content,
-.customer-page-container,
-.inventory-page-container,
-.order-placing-container {
-  flex-grow: 1; /* Allow content pages to take up available vertical space */
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Adjust max-width here if you want the *content within* the page to be narrower */
-  /* For full width, remove max-width or set it to 100% */
-  width: 100%; /* Ensure content fills its parent's width */
-  box-sizing: border-box; /* Include padding in width calculation */
-  /* Remove margin: auto if you want it to stretch fully left-to-right */
-  margin: 0 auto; /* Keep auto margin if you want it centered with a max-width, otherwise remove */
-}
-
-input,
-textarea,
-select { /* Include select elements if you have them and want similar styling */
-  background-color: #ffffff; /* Force white background for all input types */
-  color: #333333; /* Dark text color for readability on white */
-  border: 1px solid #ccc; /* A subtle light gray border */
-  border-radius: 5px; /* Consistent rounded corners */
-  padding: 12px 15px; /* Comfortable padding inside the box */
-  font-size: 1em; /* Standard font size */
-  color-scheme: light; /* Crucial for overriding dark mode styles */
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width/height */
-  /* Remove default browser styles for consistency, especially for search inputs */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-/* Specific adjustments if needed, though the above should cover most cases */
-.customer-page-container {
-  /* You can still set a specific max-width here if CustomerPage should be narrower than InventoryPage */
-  /* max-width: 800px; */
-}
-
-.inventory-page-container {
-  /* max-width: 900px; /* From previous. You can remove this to allow it to expand fully */
-}
-
-
-
-/* For placeholder pages like Home, Orders, etc. */
-.page-content {
-  text-align: center; /* Keep text centered for these simple pages */
-}
-
-.page-content h1 {
-  color: #007bff;
-  margin-bottom: 15px;
+h1{
+  color: white;
+  background-color: white;
 }

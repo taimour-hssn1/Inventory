@@ -6,54 +6,43 @@ import {
   FaShoppingCart,
   FaUsers,
   FaDollarSign,
-  FaSignOutAlt
+  FaSignOutAlt,
 } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // <--- Make sure this is imported!
+import { NavLink, useNavigate } from 'react-router-dom';
 
-// Props:
-// - activeItem: string (the name of the currently active menu item, e.g., 'Customer')
-// - onMenuItemClick: function (callback when a menu item is clicked)
-// - setToken: function (callback to update app state)
-const Sidebar = ({ activeItem, onMenuItemClick, setToken }) => {
-  const navigate = useNavigate(); // <--- Initialize the useNavigate hook here!
+const Sidebar = ({ setToken }) => {
+  const navigate = useNavigate();
 
   const sidebarItems = [
-    { name: 'Home', icon: <FaHome /> },
-    { name: 'Inventory', icon: <FaBoxOpen /> },
-    { name: 'Orders', icon: <FaShoppingCart /> },
-    { name: 'Customer', icon: <FaUsers /> },
-    { name: 'Revenue', icon: <FaDollarSign /> },
-    // Removed 'Logout' from sidebarItems to give it a distinct styling and position
-    // and to handle its click separately.
+    { name: 'Home', icon: <FaHome />, path: '/dashboard/' },
+    { name: 'Inventory', icon: <FaBoxOpen />, path: '/dashboard/inventory' },
+    { name: 'Orders', icon: <FaShoppingCart />, path: '/dashboard/orders' },
+    { name: 'Customer', icon: <FaUsers />, path: '/dashboard/customer' },
+    { name: 'Revenue', icon: <FaDollarSign />, path: '/dashboard/revenue' },
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('access'); // Remove access token from local storage
-    localStorage.removeItem('refresh'); // Remove refresh token from local storage
-    setToken(null); // update app state
-    navigate('/', { replace: true }); // Redirect to login page and clear history
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    setToken(null);
+    navigate('/', { replace: true });
   };
 
   return (
     <div className="sidebar">
       <ul>
         {sidebarItems.map((item) => (
-          <li
-            key={item.name}
-            className={activeItem === item.name ? 'active' : ''}
-            onClick={() => onMenuItemClick(item.name)}
-          >
-            <a href="#" onClick={(e) => e.preventDefault()}>
+          <li key={item.name}>
+            <NavLink to={item.path} className={({ isActive }) => isActive ? 'active' : ''}>
               <span className="icon">{item.icon}</span>
               <span className="text">{item.name}</span>
-            </a>
+            </NavLink>
           </li>
         ))}
       </ul>
 
-      {/* Separate ul for the logout item to push it to the bottom and style differently */}
       <ul className="logout-item">
-        <li onClick={handleLogout}> {/* Attach handleLogout directly to the li */}
+        <li onClick={handleLogout}>
           <a href="#" onClick={(e) => e.preventDefault()}>
             <span className="icon"><FaSignOutAlt /></span>
             <span className="text">Logout</span>
