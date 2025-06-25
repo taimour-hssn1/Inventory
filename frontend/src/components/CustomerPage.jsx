@@ -66,6 +66,31 @@ const CustomerPage = () => {
     alert(`Action for customer ID: ${id}`);
   };
 
+  const handleEditIndividual = async (customer) => {
+    const name = window.prompt("Enter new name:", customer.name);
+    if (name === null) return;
+
+    const phone = window.prompt("Enter new phone:", customer.phone);
+    if (phone === null) return;
+
+    const address = window.prompt("Enter new address:", customer.address);
+    if (address === null) return;
+
+    const updatedCustomer = { ...customer, name, phone, address };
+
+    try {
+      const res = await api.put(
+        `/api/edit-customer/${customer.id}/`,
+        updatedCustomer
+      );
+
+      const refreshed = await api.get("/api/customers/");
+      setCustomers(refreshed.data);
+    } catch (err) {
+      console.error("Error updating customer:", err);
+    }
+  };
+
   return (
     <div className="customer-page-container">
       <h2>Customer Management</h2>
@@ -84,6 +109,7 @@ const CustomerPage = () => {
         customers={filteredCustomers}
         onAddIndividual={handleAddIndividual}
         onDeleteIndividual={handleDeleteCustomer}
+        onEditIndividual={handleEditIndividual}
       />
     </div>
   );

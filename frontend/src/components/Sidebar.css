@@ -8,6 +8,18 @@
   
 }
 
+.sub-item {
+  padding-left: 30px;
+  font-size: 0.95em;
+}
+
+.section-title {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #444;
+  padding-left: 20px;
+}
+
 .sidebar ul {
   list-style: none;
   padding: 0;

@@ -1,7 +1,7 @@
 import React from "react";
 import "./CustomerList.css";
 
-const CustomerList = ({ customers, onAddIndividual, onDeleteIndividual }) => {
+const CustomerList = ({ customers, onAddIndividual, onDeleteIndividual, onEditIndividual }) => {
   return (
     <div className="customer-list-container">
       {customers.length === 0 ? (
