@@ -104,7 +104,7 @@ class OrderDispatchSerializer(serializers.Serializer):
             )
             
             # Update inventory (reduce remaining quantity)
-            item.remaining_quantity -= quantity
+            item.quantity -= quantity
             item.save()
         
         return purchase
