@@ -1,58 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import CustomerControls from './CustomerControls';
-import CustomerList from './CustomerList';
-import './CustomerPage.css';
-import api from '../api'; // your Axios instance
+import React, { useEffect, useState } from "react";
+import CustomerControls from "./CustomerControls";
+import CustomerList from "./CustomerList";
+import "./CustomerPage.css";
+import api from "../api"; // your Axios instance
 
 const CustomerPage = () => {
   const [customers, setCustomers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [newCustomerName, setNewCustomerName] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // ✅ Load customers from backend on mount
+  const [newCustomerName, setNewCustomerName] = useState("");
+  const [newCustomerPhone, setNewCustomerPhone] = useState("");
+  const [newCustomerAddress, setNewCustomerAddress] = useState("");
+
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await api.get('/api/customers/');
+        const response = await api.get("/api/customers/");
         setCustomers(response.data);
-        console.log('Customers loaded:', response.data);
       } catch (error) {
-        console.error('Failed to fetch customers:', error);
+        console.error("Failed to fetch customers:", error);
       }
     };
 
     fetchCustomers();
   }, []);
 
-  // 🔍 Filter logic
   const filteredCustomers = customers.filter((customer) =>
     customer.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // ➕ Add a new customer
   const handleAddCustomer = async () => {
-    if (newCustomerName.trim() === '') {
-      alert('Customer name cannot be empty!');
+    if (
+      newCustomerName.trim() === "" ||
+      newCustomerPhone.trim() === "" ||
+      newCustomerAddress.trim() === ""
+    ) {
+      alert("All fields are required!");
       return;
     }
 
     try {
-      await api.post('/api/customer/add/', {
+      await api.post("/api/add-customer/", {
         name: newCustomerName,
-        phone: '0000000000',
-        address: 'N/A',
+        phone: newCustomerPhone,
+        address: newCustomerAddress,
       });
 
-      // Reload after adding
-      const refreshed = await api.get('/api/customers/');
+      const refreshed = await api.get("/api/customers/");
       setCustomers(refreshed.data);
-      setNewCustomerName('');
+
+      // Reset fields
+      setNewCustomerName("");
+      setNewCustomerPhone("");
+      setNewCustomerAddress("");
     } catch (error) {
-      console.error('Error adding customer:', error);
+      console.error("Error adding customer:", error);
     }
   };
 
-  // ❌ Delete customer (local only for now)
   const handleDeleteCustomer = (id) => {
     setCustomers(customers.filter((customer) => customer.id !== id));
   };
@@ -69,6 +74,10 @@ const CustomerPage = () => {
         onSearchChange={setSearchTerm}
         newCustomerName={newCustomerName}
         onNewCustomerNameChange={setNewCustomerName}
+        newCustomerPhone={newCustomerPhone}
+        onNewCustomerPhoneChange={setNewCustomerPhone}
+        newCustomerAddress={newCustomerAddress}
+        onNewCustomerAddressChange={setNewCustomerAddress}
         onAddCustomer={handleAddCustomer}
       />
       <CustomerList
