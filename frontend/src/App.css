@@ -20,6 +20,8 @@ body {
   font-size: 2.5rem; /* Optional: make it stand out */
 }
 
+
+
 .main-content {
   flex-grow: 1; /* This is key: it makes main-content take all available horizontal space */
   padding: 20px; /* Add some padding around the content */

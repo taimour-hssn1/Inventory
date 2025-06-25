@@ -46,3 +46,19 @@
 .delete-item-button:hover {
   background-color: #c82333;
 }
+
+.edit-item-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  background-color: #4caf50;; /* Red */
+  color: white;
+  transition: background-color 0.2s ease;
+  margin-right: 10px ;
+}
+
+.edit-item-button:hover {
+  background-color: #45a049;
+}

@@ -26,14 +26,14 @@ const CustomerList = ({ customers, onAddIndividual, onDeleteIndividual, onEditIn
               </div>
               <div className="customer-actions">
                 <button
-                  className="action-button edit-button"
+                  className="edit-customer-button"
                   onClick={() => onEditIndividual(customer)}
                 >
                   Edit
                 </button>
 
                 <button
-                  className="action-button delete-button"
+                  className="delete-button"
                   onClick={() => onDeleteIndividual(customer.id)}
                 >
                   Delete
