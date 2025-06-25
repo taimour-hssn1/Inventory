@@ -1,44 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomerControls from './CustomerControls';
 import CustomerList from './CustomerList';
-import './CustomerPage.css'; // New CSS for this page container
+import './CustomerPage.css';
+import api from '../api'; // your Axios instance
 
 const CustomerPage = () => {
-  const [customers, setCustomers] = useState([
-    { id: 1, name: 'Alice Smith' },
-    { id: 2, name: 'Bob Johnson' },
-    { id: 3, name: 'Charlie Brown' },
-    { id: 4, name: 'David Lee' },
-    { id: 5, name: 'Eve Davis' },
-  ]);
+  const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [newCustomerName, setNewCustomerName] = useState('');
 
-  // Filter customers based on search term
+  // ✅ Load customers from backend on mount
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const response = await api.get('/api/customers/');
+        setCustomers(response.data);
+        console.log('Customers loaded:', response.data);
+      } catch (error) {
+        console.error('Failed to fetch customers:', error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  // 🔍 Filter logic
   const filteredCustomers = customers.filter((customer) =>
     customer.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handle adding a new customer
-  const handleAddCustomer = () => {
+  // ➕ Add a new customer
+  const handleAddCustomer = async () => {
     if (newCustomerName.trim() === '') {
       alert('Customer name cannot be empty!');
       return;
     }
-    const newId = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
-    setCustomers([...customers, { id: newId, name: newCustomerName.trim() }]);
-    setNewCustomerName(''); // Clear input field
+
+    try {
+      await api.post('/api/customer/add/', {
+        name: newCustomerName,
+        phone: '0000000000',
+        address: 'N/A',
+      });
+
+      // Reload after adding
+      const refreshed = await api.get('/api/customers/');
+      setCustomers(refreshed.data);
+      setNewCustomerName('');
+    } catch (error) {
+      console.error('Error adding customer:', error);
+    }
   };
 
-  // Handle deleting a customer
+  // ❌ Delete customer (local only for now)
   const handleDeleteCustomer = (id) => {
     setCustomers(customers.filter((customer) => customer.id !== id));
   };
 
-  // Placeholder for individual "Add" action (customize as needed)
   const handleAddIndividual = (id) => {
-    alert(`Add action for customer ID: ${id}. This typically means adding an order, note, etc., for THIS customer.`);
-    // Example: You might open a modal here to add an order
+    alert(`Action for customer ID: ${id}`);
   };
 
   return (
