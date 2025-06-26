@@ -108,3 +108,14 @@ class OrderDispatchSerializer(serializers.Serializer):
             item.save()
         
         return purchase
+
+class OrderWithCustomerNameSerializer(serializers.ModelSerializer):
+    customer_name = serializers.CharField(source='customer.name', read_only=True)
+    customer_id = serializers.CharField(source='customer.id', read_only=True)
+
+    items = PurchaseItemSerializer(source='purchaseitem_set', many=True, read_only=True)
+
+    class Meta:
+        model = Purchase
+        fields = ['id','customer_id',  'customer_name', 'purchase_date', 'total_amount', 'remaining_amount', 'is_paid', 'items']
+

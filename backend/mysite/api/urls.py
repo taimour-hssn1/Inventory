@@ -15,8 +15,7 @@ urlpatterns = [
     path('edit-customer/<int:pk>/', EditCustomer.as_view(), name='edit-customer'),
     path('customers/', CustomerListApi.as_view(), name='customer-list'),
     path('items/', ItemListApi.as_view(), name='item-list'),
-
-
+    path('orders/', OrderListApi.as_view(), name='order-list'),
 ]
 
 

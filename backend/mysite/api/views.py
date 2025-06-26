@@ -3,14 +3,15 @@ from rest_framework.response import Response # type: ignore
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .models import Customer, Item
-from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer, CustomerSerializer
+from .models import Customer, Item, Purchase
+from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer, CustomerSerializer, PurchaseSerializer, OrderWithCustomerNameSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView
+from django.db.models import Exists, OuterRef
 
 
 @api_view(['GET'])
@@ -155,5 +156,10 @@ class ItemListApi(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = [IsAuthenticated]
+
+class OrderListApi(ListAPIView):
+    queryset = Purchase.objects.all()
+    serializer_class = OrderWithCustomerNameSerializer
+    # permission_classes = [IsAuthenticated]
 
     
