@@ -1,19 +1,35 @@
 // src/components/OrderRecords.jsx
 
 import React, { useState, useEffect } from 'react';
-import './OrderRecords.css'; // Specific styling for OrderRecords
+import './OrderRecords.css';
+import api from '../api';
 
-const OrderRecords = ({ orders }) => {
+const OrderRecords = () => {
+    const [orders, setOrders] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredOrders, setFilteredOrders] = useState([]);
 
-    // Update filtered orders whenever orders or searchTerm changes
     useEffect(() => {
-        const lowercasedSearchTerm = searchTerm.toLowerCase();
+        const fetchOrders = async () => {
+            try {
+                const response = await api.get('/api/orders/');
+                setOrders(response.data);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
+
+    useEffect(() => {
+        const lowerSearch = searchTerm.toLowerCase();
         const results = orders.filter(order =>
-            order.customerName.toLowerCase().includes(lowercasedSearchTerm) ||
-            order.items.some(item => item.itemName.toLowerCase().includes(lowercasedSearchTerm)) ||
-            order.id.toString().includes(lowercasedSearchTerm)
+            order.customer_name.toLowerCase().includes(lowerSearch) ||
+            order.id.toString().includes(lowerSearch) ||
+            order.items.some(item =>
+                item.item.name.toLowerCase().includes(lowerSearch)
+            )
         );
         setFilteredOrders(results);
     }, [orders, searchTerm]);
@@ -25,7 +41,7 @@ const OrderRecords = ({ orders }) => {
             <div className="search-bar">
                 <input
                     type="text"
-                    placeholder="Search orders by customer name, item, or ID..."
+                    placeholder="Search orders by customer, item, or ID..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -37,17 +53,20 @@ const OrderRecords = ({ orders }) => {
                 <ul className="placed-orders-list">
                     {filteredOrders.map(order => (
                         <li key={order.id} className="placed-order-card">
-                            <h4>Order #{order.id} for {order.customerName}</h4>
-                            <p>Date: {order.orderDate}</p>
+                            <h4>Order #{order.id} for {order.customer_name}</h4>
+                            <p><strong>Date:</strong> {new Date(order.purchase_date).toLocaleString()}</p>
+                            <p><strong>Total:</strong> PKR {order.total_amount}</p>
+                            <p><strong>Remaining:</strong> PKR {order.remaining_amount}</p>
+                            <p><strong>Paid:</strong> {order.is_paid ? 'Yes' : 'No'}</p>
+
                             <h5>Items:</h5>
                             <ul>
                                 {order.items.map(item => (
-                                    <li key={item.itemId}>
-                                        {item.itemName} x {item.quantity} (PKR {item.itemPrice} each)
+                                    <li key={item.id}>
+                                        {item.item.name} x {item.quantity} — PKR {item.amount}
                                     </li>
                                 ))}
                             </ul>
-                            <p><strong>Total: PKR {order.total}</strong></p>
                         </li>
                     ))}
                 </ul>

@@ -160,6 +160,6 @@ class ItemListApi(ListAPIView):
 class OrderListApi(ListAPIView):
     queryset = Purchase.objects.all()
     serializer_class = OrderWithCustomerNameSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     
