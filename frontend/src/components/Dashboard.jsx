@@ -4,6 +4,7 @@ import CustomerPage from "./CustomerPage";
 import InventoryPage from "./InventoryPage";
 import OrderPlacing from "./OrderPlacing";
 import OrderRecords from "./OrderRecords";
+import Installments from "./AddInstallments";
 import "../app.css";
 
 const Dashboard = ({ setToken }) => {
@@ -20,6 +21,7 @@ const Dashboard = ({ setToken }) => {
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="orders/place" element={<OrderPlacing />} />
           <Route path="orders/view" element={<OrderRecords />} />
+          <Route path="/installments" element={<Installments/>} />
           <Route
             path="*"
             element={

@@ -9,6 +9,7 @@ import {
   FaUsers,
   FaDollarSign,
   FaSignOutAlt,
+    FaMoneyCheckAlt,
 } from 'react-icons/fa';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ const navItems = [
   { name: 'View Orders', icon: <FaClipboardList />, path: '/dashboard/orders/view' },
   { name: 'Customer', icon: <FaUsers />, path: '/dashboard/customer' },
   { name: 'Revenue', icon: <FaDollarSign />, path: '/dashboard/revenue' },
+  { name: 'Installments', icon: <FaMoneyCheckAlt />, path: '/dashboard/installments' },
 ];
 
   const handleLogout = () => {

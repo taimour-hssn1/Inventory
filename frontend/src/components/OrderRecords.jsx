@@ -1,5 +1,3 @@
-// src/components/OrderRecords.jsx
-
 import React, { useState, useEffect } from "react";
 import "./OrderRecords.css";
 import api from "../api";
@@ -18,7 +16,6 @@ const OrderRecords = () => {
         console.error("Error fetching orders:", error);
       }
     };
-
     fetchOrders();
   }, []);
 
@@ -92,16 +89,22 @@ const OrderRecords = () => {
                   </li>
                 ))}
               </ul>
-              <div className="order-actions">
-                <button onClick={() => handleEditOrder(order)}
-                    className="edit-button">Edit</button>
-                <button
-                  onClick={() => handleDeleteOrder(order.id)}
-                  className="delete-button"
-                >
-                  Delete
-                </button>
-              </div>
+              {!order.is_paid && (
+                <div className="order-actions">
+                  <button
+                    onClick={() => handleEditOrder(order)}
+                    className="edit-button"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteOrder(order.id)}
+                    className="delete-button"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>

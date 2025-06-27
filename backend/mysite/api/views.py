@@ -161,7 +161,6 @@ class OrderListApi(ListAPIView):
     queryset = Purchase.objects.all()
     serializer_class = OrderWithCustomerNameSerializer
     # permission_classes = [IsAuthenticated]
-
 class AddInstallmentApi(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = InstallmentSerializer
@@ -204,7 +203,7 @@ class DeleteItemApi(APIView):
         return Response({'message': 'Item deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 class EditOrderApi(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     serializer_class = PurchaseSerializer
 
     def put(self, request, pk):
