@@ -182,4 +182,25 @@ class AddInstallmentApi(APIView):
             return Response({'message': 'Installment added successfully.', 'installment': InstallmentSerializer(installment).data, 'remaining_amount': purchase.remaining_amount, 'is_paid': purchase.is_paid}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class DeleteOrderApi(APIView):
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, pk):
+        purchase = get_object_or_404(Purchase, pk=pk)
+        purchase.delete()
+        return Response({'message': 'Order deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+class DeleteCustomerApi(APIView):
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, pk):
+        customer = get_object_or_404(Customer, pk=pk)
+        customer.delete()
+        return Response({'message': 'Customer deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+class DeleteItemApi(APIView):
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, pk):
+        item = get_object_or_404(Item, pk=pk)
+        item.delete()
+        return Response({'message': 'Item deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
     
