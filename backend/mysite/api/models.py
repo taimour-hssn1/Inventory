@@ -42,3 +42,11 @@ class PurchaseItem(models.Model):
 
     def __str__(self):
         return f"{self.purchase.customer.name} - {self.item.name} - {self.quantity}"
+
+class Installment(models.Model):
+    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE, related_name='installments')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Installment for {self.purchase.customer.name} on {self.payment_date.strftime('%Y-%m-%d')} - {self.amount}"

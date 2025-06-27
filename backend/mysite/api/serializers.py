@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .models import Item, Customer, Purchase, PurchaseItem
+from .models import Item, Customer, Purchase, PurchaseItem, Installment
 from django.contrib.auth.models import User
 
 class LoginSerializer(serializers.Serializer):
@@ -30,16 +30,22 @@ class PurchaseItemSerializer(serializers.ModelSerializer):
         model = PurchaseItem
         fields = ['id', 'item', 'item_id', 'quantity', 'amount']
 
+class InstallmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Installment
+        fields = ['id', 'amount', 'payment_date']
+
 class PurchaseSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source='customer', write_only=True
     )
     items = PurchaseItemSerializer(source='purchaseitem_set', many=True, read_only=True)
+    installments = InstallmentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Purchase
-        fields = ['id', 'customer', 'customer_id', 'purchase_date', 'total_amount', 'remaining_amount', 'is_paid', 'items']
+        fields = ['id', 'customer', 'customer_id', 'purchase_date', 'total_amount', 'remaining_amount', 'is_paid', 'items', 'installments']
 
 class OrderDispatchSerializer(serializers.Serializer):
     customer_name = serializers.CharField(max_length=200)

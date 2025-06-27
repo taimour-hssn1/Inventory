@@ -3,8 +3,8 @@ from rest_framework.response import Response # type: ignore
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .models import Customer, Item, Purchase
-from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer, CustomerSerializer, PurchaseSerializer, OrderWithCustomerNameSerializer
+from .models import Customer, Item, Purchase, Installment
+from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer, CustomerSerializer, PurchaseSerializer, OrderWithCustomerNameSerializer, InstallmentSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -160,6 +160,26 @@ class ItemListApi(ListAPIView):
 class OrderListApi(ListAPIView):
     queryset = Purchase.objects.all()
     serializer_class = OrderWithCustomerNameSerializer
+    # permission_classes = [IsAuthenticated]
+
+class AddInstallmentApi(APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = InstallmentSerializer
+
+    def post(self, request, purchase_id):
+        purchase = get_object_or_404(Purchase, pk=purchase_id)
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            amount = serializer.validated_data['amount']
+            if amount <= 0 or amount > purchase.remaining_amount:
+                return Response({'error': 'Invalid installment amount.'}, status=status.HTTP_400_BAD_REQUEST)
+            installment = Installment.objects.create(purchase=purchase, amount=amount)
+            purchase.remaining_amount -= amount
+            if purchase.remaining_amount <= 0:
+                purchase.remaining_amount = 0
+                purchase.is_paid = True
+            purchase.save()
+            return Response({'message': 'Installment added successfully.', 'installment': InstallmentSerializer(installment).data, 'remaining_amount': purchase.remaining_amount, 'is_paid': purchase.is_paid}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
