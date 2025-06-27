@@ -16,10 +16,7 @@ const OrderManager = () => {
     <div className="order-manager-container">
       <h1>Order Management System</h1>
       <div className="content-wrapper">
-        {/* This is the parent for side-by-side */}
         <OrderPlacing onPlaceOrder={handleNewOrderPlaced} />
-        <hr className="component-separator" /> {/* Optional separator */}
-        <OrderRecords orders={placedOrders} />
       </div>
     </div>
   );

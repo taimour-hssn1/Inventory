@@ -13,6 +13,7 @@ body {
   display: flex; /* Makes sidebar and main-content sit side-by-side */
   min-height: 100vh; /* Ensures the app takes up the full height of the viewport */
   width: 100vw; /* Ensures the app takes up the full width of the viewport */
+  flex-direction: column;
 }
 
 .page-title {
