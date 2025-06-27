@@ -3,7 +3,7 @@ from rest_framework.response import Response # type: ignore
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .models import Customer, Item, Purchase, Installment
+from .models import Customer, Item, Purchase, Installment, PurchaseItem
 from .serializers import LoginSerializer, OrderDispatchSerializer, ItemSerializer, CustomerSerializer, PurchaseSerializer, OrderWithCustomerNameSerializer, InstallmentSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -202,5 +202,65 @@ class DeleteItemApi(APIView):
         item = get_object_or_404(Item, pk=pk)
         item.delete()
         return Response({'message': 'Item deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+class EditOrderApi(APIView):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = PurchaseSerializer
+
+    def put(self, request, pk):
+        purchase = get_object_or_404(Purchase, pk=pk)
+        data = request.data.copy()
+        items_data = data.pop('items', None)
+        serializer = self.serializer_class(purchase, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            if items_data is not None:
+                # Remove old items
+                purchase.purchaseitem_set.all().delete()
+                total_amount = 0
+                for item_data in items_data:
+                    item = Item.objects.get(id=item_data['item_id'])
+                    quantity = item_data['quantity']
+                    amount = item.price * quantity
+                    total_amount += amount
+                    PurchaseItem.objects.create(
+                        purchase=purchase,
+                        item=item,
+                        quantity=quantity,
+                        amount=amount
+                    )
+                purchase.total_amount = total_amount
+                # Optionally, reset remaining_amount if you want
+                purchase.remaining_amount = total_amount if not purchase.is_paid else 0
+                purchase.save()
+            return Response({'message': 'Order updated successfully', 'order': self.serializer_class(purchase).data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        purchase = get_object_or_404(Purchase, pk=pk)
+        data = request.data.copy()
+        items_data = data.pop('items', None)
+        serializer = self.serializer_class(purchase, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            if items_data is not None:
+                purchase.purchaseitem_set.all().delete()
+                total_amount = 0
+                for item_data in items_data:
+                    item = Item.objects.get(id=item_data['item_id'])
+                    quantity = item_data['quantity']
+                    amount = item.price * quantity
+                    total_amount += amount
+                    PurchaseItem.objects.create(
+                        purchase=purchase,
+                        item=item,
+                        quantity=quantity,
+                        amount=amount
+                    )
+                purchase.total_amount = total_amount
+                purchase.remaining_amount = total_amount if not purchase.is_paid else 0
+                purchase.save()
+            return Response({'message': 'Order updated successfully', 'order': self.serializer_class(purchase).data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     

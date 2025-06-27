@@ -16,6 +16,7 @@ urlpatterns = [
     path('customers/', CustomerListApi.as_view(), name='customer-list'),
     path('items/', ItemListApi.as_view(), name='item-list'),
     path('orders/', OrderListApi.as_view(), name='order-list'),
+    path('edit-order/<int:pk>/', EditOrderApi.as_view(), name='edit-order'),
     path('add-installment/<int:purchase_id>/', AddInstallmentApi.as_view(), name='add-installment'),
     path('delete-order/<int:pk>/', DeleteOrderApi.as_view(), name='delete-order'),
     path('delete-customer/<int:pk>/', DeleteCustomerApi.as_view(), name='delete-customer'),
