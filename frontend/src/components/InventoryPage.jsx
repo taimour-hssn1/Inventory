@@ -63,9 +63,15 @@ const InventoryPage = () => {
     }
   };
 
-  const handleDeleteInventoryItem = (id) => {
-    setInventoryItems(inventoryItems.filter((item) => item.id !== id));
-    // Optional: send DELETE request to backend here
+  const handleDeleteInventoryItem = async(id) => {
+    console.log("Deleting item with ID:", id); // Debug line
+    try{
+      await api.delete(`/api/delete-item/${id}/`);
+      setInventoryItems(inventoryItems.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      alert("Failed to delete item.");
+    }
   };
 
   const filteredInventory = inventoryItems.filter((item) =>

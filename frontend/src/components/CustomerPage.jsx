@@ -58,8 +58,16 @@ const CustomerPage = () => {
     }
   };
 
-  const handleDeleteCustomer = (id) => {
-    setCustomers(customers.filter((customer) => customer.id !== id));
+  const handleDeleteCustomer = async (id) => {
+    console.log("Deleting customer with ID:", id); // Debug line
+
+    try {
+      await api.delete(`/api/delete-customer/${id}/`);
+      setCustomers(customers.filter((customer) => customer.id !== id));
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+      alert("Failed to delete customer.");
+    }
   };
 
   const handleAddIndividual = (id) => {
