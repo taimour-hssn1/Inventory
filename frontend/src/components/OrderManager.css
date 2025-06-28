@@ -1,37 +1,379 @@
 /* src/components/OrderManager.css */
+/* Modern Order Manager with Enhanced Layout */
 .order-manager-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  padding: 30px;
+  margin: 20px auto;
   width: 100%;
-  max-width: 80%;
-  background-color: #f4f7f6;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 1400px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
+  animation: fadeInScale 0.8s ease-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.order-manager-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .order-manager-container h1 {
   text-align: center;
-  color: #2c3e50;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 30px;
   font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .content-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 30px;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+  animation: slideInUp 0.6s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .content-wrapper > * {
-  flex: 1;
-  min-width: 400px; /* Adjust based on your layout */
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.content-wrapper > *::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+  transition: left 0.6s;
+}
+
+.content-wrapper > *:hover::before {
+  left: 100%;
+}
+
+.content-wrapper > *:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 15px 35px rgba(102, 126, 234, 0.15),
+    0 6px 15px rgba(0, 0, 0, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 .component-separator {
-  display: none; /* Remove separator since layout is side-by-side */
+  display: none;
+}
+
+/* Enhanced form styling within components */
+.content-wrapper input,
+.content-wrapper select,
+.content-wrapper textarea {
+  background: rgba(255, 255, 255, 0.9);
+  color: #2c3e50;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  padding: 15px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  color-scheme: light;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.content-wrapper input:focus,
+.content-wrapper select:focus,
+.content-wrapper textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 0 0 4px rgba(102, 126, 234, 0.1),
+    0 8px 16px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.content-wrapper input::placeholder,
+.content-wrapper textarea::placeholder {
+  color: #a0a0a0;
+  transition: color 0.3s ease;
+}
+
+.content-wrapper input:focus::placeholder,
+.content-wrapper textarea:focus::placeholder {
+  color: #667eea;
+}
+
+/* Enhanced button styling within components */
+.content-wrapper button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  letter-spacing: 0.5px;
+  margin: 5px;
+}
+
+.content-wrapper button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.content-wrapper button:hover::before {
+  left: 100%;
+}
+
+.content-wrapper button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.content-wrapper button:active {
+  transform: translateY(0);
+}
+
+/* Secondary button styling */
+.content-wrapper button.secondary {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.content-wrapper button.secondary:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+}
+
+/* Danger button styling */
+.content-wrapper button.danger {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.content-wrapper button.danger:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a93226 100%);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
+}
+
+/* Success button styling */
+.content-wrapper button.success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.content-wrapper button.success:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+}
+
+/* Enhanced table styling within components */
+.content-wrapper table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+.content-wrapper th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.content-wrapper td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  color: #555;
+  font-weight: 400;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-wrapper tbody tr {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-wrapper tbody tr:hover {
+  background: rgba(102, 126, 234, 0.05);
+  transform: scale(1.01);
+}
+
+.content-wrapper tbody tr:hover td {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-manager-container {
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+  }
+  
+  .order-manager-container h1 {
+    font-size: 2rem;
+  }
+  
+  .content-wrapper {
+    gap: 20px;
+  }
+  
+  .content-wrapper > * {
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  .content-wrapper input,
+  .content-wrapper select,
+  .content-wrapper textarea {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+  }
+  
+  .content-wrapper button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .content-wrapper th,
+  .content-wrapper td {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Loading state */
+.order-manager-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.order-manager-loading::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50%;
+  border-top-color: #667eea;
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* Section headers within components */
+.content-wrapper h2,
+.content-wrapper h3 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.content-wrapper h2 {
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.content-wrapper h3 {
+  font-size: 1.2rem;
+  letter-spacing: 0.3px;
 }

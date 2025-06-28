@@ -101,24 +101,26 @@ const CustomerPage = () => {
 
   return (
     <div className="customer-page-container">
-      <h2>Customer Management</h2>
-      <CustomerControls
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        newCustomerName={newCustomerName}
-        onNewCustomerNameChange={setNewCustomerName}
-        newCustomerPhone={newCustomerPhone}
-        onNewCustomerPhoneChange={setNewCustomerPhone}
-        newCustomerAddress={newCustomerAddress}
-        onNewCustomerAddressChange={setNewCustomerAddress}
-        onAddCustomer={handleAddCustomer}
-      />
-      <CustomerList
-        customers={filteredCustomers}
-        onAddIndividual={handleAddIndividual}
-        onDeleteIndividual={handleDeleteCustomer}
-        onEditIndividual={handleEditIndividual}
-      />
+      <div className="customer-content-wrapper">
+        <h2>Customer Management</h2>
+        <CustomerControls
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          newCustomerName={newCustomerName}
+          onNewCustomerNameChange={setNewCustomerName}
+          newCustomerPhone={newCustomerPhone}
+          onNewCustomerPhoneChange={setNewCustomerPhone}
+          newCustomerAddress={newCustomerAddress}
+          onNewCustomerAddressChange={setNewCustomerAddress}
+          onAddCustomer={handleAddCustomer}
+        />
+        <CustomerList
+          customers={filteredCustomers}
+          onAddIndividual={handleAddIndividual}
+          onDeleteIndividual={handleDeleteCustomer}
+          onEditIndividual={handleEditIndividual}
+        />
+      </div>
     </div>
   );
 };

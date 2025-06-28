@@ -1,64 +1,284 @@
+/* Modern Inventory List with Enhanced Table Design */
 .inventory-list-container {
   margin-top: 20px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* Allows horizontal scrolling on small screens */
-  max-height: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  max-height: 500px;
   overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.8s ease-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-list-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .inventory-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin-top: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .inventory-table th,
 .inventory-table td {
-  padding: 12px 15px;
+  padding: 16px 20px;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .inventory-table th {
-  background-color: #f8f9fa;
-  font-weight: bold;
-  color: #555;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  animation: slideInDown 0.6s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.inventory-table th:first-child {
+  border-top-left-radius: 15px;
+}
+
+.inventory-table th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.inventory-table tbody tr {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInRight 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.inventory-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.inventory-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.inventory-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.inventory-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.inventory-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .inventory-table tbody tr:hover {
-  background-color: #f1f1f1;
+  background: rgba(102, 126, 234, 0.05);
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.inventory-table tbody tr:hover td {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.inventory-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.inventory-table td {
+  color: #555;
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+
+.inventory-table td:first-child {
+  font-weight: 600;
+  color: #2c3e50;
 }
 
 .delete-item-button {
-  padding: 8px 12px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 0.9em;
-  background-color: #dc3545; /* Red */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
   color: white;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.delete-item-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.delete-item-button:hover::before {
+  left: 100%;
 }
 
 .delete-item-button:hover {
-  background-color: #c82333;
+  background: linear-gradient(135deg, #c82333 0%, #c0392b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
 }
 
 .edit-item-button {
-  padding: 8px 12px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 0.9em;
-  background-color: #4caf50;; /* Red */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
   color: white;
-  transition: background-color 0.2s ease;
-  margin-right: 10px ;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-right: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.edit-item-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.edit-item-button:hover::before {
+  left: 100%;
 }
 
 .edit-item-button:hover {
-  background-color: #45a049;
+  background: linear-gradient(135deg, #45a049 0%, #4caf50 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+}
+
+/* Custom scrollbar for the container */
+.inventory-list-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.inventory-list-container::-webkit-scrollbar-track {
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 10px;
+}
+
+.inventory-list-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.inventory-list-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .inventory-list-container {
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .inventory-table th,
+  .inventory-table td {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .delete-item-button,
+  .edit-item-button {
+    padding: 8px 12px;
+    font-size: 0.85em;
+  }
+}
+
+/* Loading state */
+.inventory-list-container.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.inventory-list-container.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50%;
+  border-top-color: #667eea;
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* Empty state */
+.inventory-table tbody:empty::after {
+  content: 'No inventory items found';
+  display: block;
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-style: italic;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 10px;
+  margin: 20px;
 }

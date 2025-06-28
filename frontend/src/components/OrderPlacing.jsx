@@ -9,20 +9,24 @@ import { useEffect } from "react";
 const OrderPlacing = ({ onPlaceOrder }) => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [currentOrderItems, setCurrentOrderItems] = useState([]);
-
   const [customers, setCustomers] = useState([]);
   const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const customerRes = await api.get("/api/customers/");
         const itemRes = await api.get("/api/items/");
         setCustomers(customerRes.data);
         setItems(itemRes.data);
       } catch (err) {
         console.error("Failed to fetch customers or items:", err);
-        alert("Failed to load data. Please check your server.");
+        setMessage("Failed to load data. Please check your server.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -30,8 +34,13 @@ const OrderPlacing = ({ onPlaceOrder }) => {
   }, []);
 
   const handleCustomerChange = (customerId) => {
-    const customer = customers.find((c) => c.id === parseInt(customerId));
-    setSelectedCustomer(customer);
+    if (!customerId || customerId === "") {
+      setSelectedCustomer(null);
+    } else {
+      const customer = customers.find((c) => c.id === parseInt(customerId));
+      setSelectedCustomer(customer);
+    }
+    setMessage("");
   };
 
   const handleAddItemToOrder = (itemId) => {
@@ -50,6 +59,7 @@ const OrderPlacing = ({ onPlaceOrder }) => {
         { itemId: itemToAdd.id, quantity: 1 },
       ]);
     }
+    setMessage("");
   };
 
   const handleQuantityChange = (itemId, newQuantity) => {
@@ -60,7 +70,6 @@ const OrderPlacing = ({ onPlaceOrder }) => {
             ? { ...item, quantity: parseInt(newQuantity) || 0 }
             : item
         )
-      // .filter((item) => item.quantity > 0)
     );
   };
 
@@ -83,127 +92,227 @@ const OrderPlacing = ({ onPlaceOrder }) => {
 
   const handlePlaceOrder = async () => {
     if (!selectedCustomer) {
-      alert("Please select a customer first.");
+      setMessage("Please select a customer first.");
       return;
     }
     if (currentOrderItems.length === 0) {
-      alert("Please add items to the order.");
+      setMessage("Please add items to the order.");
       return;
     }
 
     try {
-      // Construct order payload
+      setIsLoading(true);
+      setMessage("");
+
       const newOrder = {
         customer_name: selectedCustomer.name,
-        phone: selectedCustomer.phone || "", // optional
-        address: selectedCustomer.address || "", // optional
+        phone: selectedCustomer.phone || "",
+        address: selectedCustomer.address || "",
         items: currentOrderItems.map((oi) => ({
           item_id: oi.itemId,
           quantity: oi.quantity,
         })),
       };
 
-      // Send order to backend (adjust URL if needed)
       const response = await api.post("/api/order-dispatch/", newOrder);
 
-      // Clear form
       setSelectedCustomer(null);
       setCurrentOrderItems([]);
-      alert("Order Placed Successfully!");
-
+      setMessage("Order Placed Successfully! 🎉");
 
     } catch (err) {
       console.error("Failed to place order:", err);
       console.error("Backend error:", err.response?.data);
-      alert("Failed to place order. Please try again.");
+      setMessage("Failed to place order. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return (
-    <div className="order-placing-section">
-      <h2>Place New Order</h2>
+  if (isLoading && customers.length === 0) {
+    return (
+      <div className="order-placing-container">
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Loading data...</p>
+        </div>
+      </div>
+    );
+  }
 
-      <div className="customer-selection">
-        <h3>Select Customer:</h3>
-        <select
-          value={selectedCustomer ? selectedCustomer.id : ""}
-          onChange={(e) => handleCustomerChange(e.target.value)}
-        >
-          <option value="">-- Choose Customer --</option>
-          {customers.map((customer) => (
-            <option key={customer.id} value={customer.id}>
-              {customer.name}
-            </option>
-          ))}
-        </select>
-        {selectedCustomer && (
-          <p>
-            Selected Customer: <strong>{selectedCustomer.name}</strong>
-          </p>
-        )}
+  return (
+    <div className="order-placing-container">
+      <div className="order-header">
+        <h2>Place New Order</h2>
+        <p>Create a new order for your customers</p>
       </div>
 
-      <hr />
+      {message && (
+        <div className={`message ${message.includes('Successfully') ? 'success' : 'error'}`}>
+          {message}
+        </div>
+      )}
 
-      <div className="item-selection">
-        <h3>Add Items to Order:</h3>
-        <div className="item-list">
-          {items.map((item) => (
-            <div key={item.id} className="item-card">
-              <span>
-                {item.name} (PKR {item.price})
-              </span>
-              <button onClick={() => handleAddItemToOrder(item.id)}>Add</button>
+      <div className="order-sections">
+        {/* Customer Selection Section */}
+        <div className="order-section customer-section">
+          <div className="section-header">
+            <h3>👤 Select Customer</h3>
+            <p>Choose a customer for this order</p>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="customer-select">Customer</label>
+            <select
+              id="customer-select"
+              value={selectedCustomer ? selectedCustomer.id.toString() : ""}
+              onChange={(e) => handleCustomerChange(e.target.value)}
+              className="customer-select"
+            >
+              <option value="">-- Choose Customer --</option>
+              {customers.map((customer) => (
+                <option key={customer.id} value={customer.id}>
+                  {customer.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedCustomer && (
+            <div className="selected-customer-info">
+              <div className="customer-card">
+                <h4>{selectedCustomer.name}</h4>
+                <div className="customer-details">
+                  <span>📞 {selectedCustomer.phone}</span>
+                  {selectedCustomer.address && (
+                    <span>📍 {selectedCustomer.address}</span>
+                  )}
+                </div>
+              </div>
             </div>
-          ))}
+          )}
         </div>
 
+        {/* Item Selection Section */}
+        <div className="order-section items-section">
+          <div className="section-header">
+            <h3>🛍️ Add Items to Order</h3>
+            <p>Select items and quantities for the order</p>
+          </div>
+
+          <div className="items-grid">
+            {items.map((item) => (
+              <div key={item.id} className="item-card">
+                <div className="item-info">
+                  <h4>{item.name}</h4>
+                  <p className="item-price">PKR {item.price}</p>
+                  <p className="item-stock">Stock: {item.quantity || 0}</p>
+                </div>
+                <button 
+                  className="btn btn-primary add-item-btn"
+                  onClick={() => handleAddItemToOrder(item.id)}
+                  disabled={!selectedCustomer}
+                >
+                  <span>➕</span>
+                  Add to Order
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Current Order Preview */}
         {currentOrderItems.length > 0 && (
-          <div className="selected-items-preview">
-            <h4>Items in Current Order:</h4>
-            <ul>
+          <div className="order-section order-preview-section">
+            <div className="section-header">
+              <h3>📋 Current Order</h3>
+              <p>Review and modify your order items</p>
+            </div>
+
+            <div className="order-items-list">
               {currentOrderItems.map((orderItem) => {
                 const itemDetail = items.find(
                   (item) => item.id === orderItem.itemId
                 );
                 return (
-                  <li key={orderItem.itemId}>
-                    {itemDetail.name} (PKR {itemDetail.price}) x
-                    <input
-                      type="number"
-                      min="1"
-                      value={orderItem.quantity}
-                      onChange={(e) =>
-                        handleQuantityChange(orderItem.itemId, e.target.value)
-                      }
-                      style={{ width: "60px", marginLeft: "5px" }}
-                    />
-                    <button
-                      onClick={() => handleRemoveItem(orderItem.itemId)}
-                      style={{ marginLeft: "10px" }}
-                    >
-                      Remove
-                    </button>
-                  </li>
+                  <div key={orderItem.itemId} className="order-item-card">
+                    <div className="item-details">
+                      <h4>{itemDetail.name}</h4>
+                      <p className="item-price">PKR {itemDetail.price} each</p>
+                    </div>
+                    
+                    <div className="item-controls">
+                      <div className="quantity-controls">
+                        <button 
+                          className="quantity-btn"
+                          onClick={() => handleQuantityChange(orderItem.itemId, orderItem.quantity - 1)}
+                          disabled={orderItem.quantity <= 1}
+                        >
+                          ➖
+                        </button>
+                        <input
+                          type="number"
+                          min="1"
+                          value={orderItem.quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(orderItem.itemId, e.target.value)
+                          }
+                          className="quantity-input"
+                        />
+                        <button 
+                          className="quantity-btn"
+                          onClick={() => handleQuantityChange(orderItem.itemId, orderItem.quantity + 1)}
+                        >
+                          ➕
+                        </button>
+                      </div>
+                      
+                      <div className="item-total">
+                        PKR {itemDetail.price * orderItem.quantity}
+                      </div>
+                      
+                      <button
+                        className="btn btn-danger remove-item-btn"
+                        onClick={() => handleRemoveItem(orderItem.itemId)}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
-            </ul>
-            <p>
-              Current Order Total: <strong>PKR {calculateOrderTotal()}</strong>
-            </p>
+            </div>
+
+            <div className="order-summary">
+              <div className="total-section">
+                <h3>Order Total</h3>
+                <div className="total-amount">PKR {calculateOrderTotal()}</div>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
-      <hr />
-
-      <button
-        className="place-order-button"
-        onClick={handlePlaceOrder}
-        disabled={!selectedCustomer || currentOrderItems.length === 0}
-      >
-        Place Order
-      </button>
+      {/* Place Order Button */}
+      <div className="order-actions">
+        <button
+          className="btn btn-success place-order-btn"
+          onClick={handlePlaceOrder}
+          disabled={!selectedCustomer || currentOrderItems.length === 0 || isLoading}
+        >
+          {isLoading ? (
+            <>
+              <div className="loading-spinner-small"></div>
+              Processing...
+            </>
+          ) : (
+            <>
+              <span>🚀</span>
+              Place Order
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 };

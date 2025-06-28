@@ -12,7 +12,7 @@ const LoginPage = ({ setToken }) => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const fullTitle = 'Taimour Traders';
+  const fullTitle = 'The StockRoom';
 
   useEffect(() => {
     let index = -1;

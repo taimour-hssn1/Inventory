@@ -1,15 +1,46 @@
 .customer-page-container {
-  max-width: 800px;
-  margin: 20px auto; /* Center the content within the available space */
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+.customer-content-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .customer-page-container h2 {
   text-align: center;
-  color: #333;
-  margin-bottom: 25px;
-  font-size: 2em;
+  color: white;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+/* Center all direct children */
+.customer-page-container > div {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ensure CustomerControls and CustomerList are centered */
+.customer-controls-container,
+.customer-list-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }

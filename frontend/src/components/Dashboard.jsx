@@ -15,7 +15,11 @@ const Dashboard = ({ setToken }) => {
         <Routes>
           <Route
             path="/"
-            element={<h1 className="page-title">Welcome to the Dashboard</h1>}
+            element={
+              <div className="dashboard-title-container">
+                <h1 >Welcome to the Dashboard</h1>
+              </div>
+            }
           />
           <Route path="customer" element={<CustomerPage />} />
           <Route path="inventory" element={<InventoryPage />} />
@@ -25,7 +29,7 @@ const Dashboard = ({ setToken }) => {
           <Route
             path="*"
             element={
-              <h1 className="page-title">404 - Page Not Found in Dashboard</h1>
+              <h1>404 - Page Not Found in Dashboard</h1>
             }
           />
         </Routes>

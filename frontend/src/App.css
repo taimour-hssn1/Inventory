@@ -1,3 +1,10 @@
+/* Modern CSS Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,87 +12,246 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f7f6; /* Light grey background */
-  overflow: auto; /* Prevent body scrollbar if content is scrolled inside main-content */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
 }
 
 .App {
-  display: flex; /* Makes sidebar and main-content sit side-by-side */
-  min-height: 100vh; /* Ensures the app takes up the full height of the viewport */
-  width: 100vw; /* Ensures the app takes up the full width of the viewport */
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
   flex-direction: column;
+  transition: all 0.3s ease-in-out;
 }
 
 .page-title {
-  color: #3c4a5c; /* Blue */
-  font-size: 2.5rem; /* Optional: make it stand out */
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 0.8s ease-out;
 }
 
-
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .main-content {
-  flex-grow: 1; /* This is key: it makes main-content take all available horizontal space */
-  padding: 20px; /* Add some padding around the content */
-  overflow-y: auto; /* Allows vertical scrolling within this area if content overflows */
-  display: flex; /* Make it a flex container to potentially center its children or spread them */
-  flex-direction: column; /* Stack children vertically */
-  /* Remove max-width here if it's present, as it restricts expansion */
-  /* max-width: 800px; /* REMOVE THIS if it was here, or increase significantly */
-  /* margin: 20px auto; /* REMOVE THIS if it was here, as it centers content */
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.6s ease-out;
 }
 
-/* Base style for all page containers (CustomerPage, InventoryPage, etc.) */
-/* Apply this to .customer-page-container, .inventory-page-container */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Enhanced page containers with modern styling */
 .page-content,
 .customer-page-container,
 .inventory-page-container {
-  flex-grow: 1; /* Allow content pages to take up available vertical space */
-  background-color: #ffffff;
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Adjust max-width here if you want the *content within* the page to be narrower */
-  /* For full width, remove max-width or set it to 100% */
-  width: 100%; /* Ensure content fills its parent's width */
-  box-sizing: border-box; /* Include padding in width calculation */
-  /* Remove margin: auto if you want it to stretch fully left-to-right */
-  margin: 0 auto; /* Keep auto margin if you want it centered with a max-width, otherwise remove */
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInScale 0.8s ease-out;
 }
 
+.page-content:hover,
+.customer-page-container:hover,
+.inventory-page-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Enhanced form inputs with modern styling */
 input,
 textarea,
 select {
-  /* Include select elements if you have them and want similar styling */
-  background-color: #ffffff; /* Force white background for all input types */
-  color: #333333; /* Dark text color for readability on white */
-  border: 1px solid #ccc; /* A subtle light gray border */
-  border-radius: 5px; /* Consistent rounded corners */
-  padding: 12px 15px; /* Comfortable padding inside the box */
-  font-size: 1em; /* Standard font size */
-  color-scheme: light; /* Crucial for overriding dark mode styles */
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width/height */
-  /* Remove default browser styles for consistency, especially for search inputs */
+  background: rgba(255, 255, 255, 0.9);
+  color: #2c3e50;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  padding: 15px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  color-scheme: light;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-/* Specific adjustments if needed, though the above should cover most cases */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 0 0 4px rgba(102, 126, 234, 0.1),
+    0 8px 16px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a0a0a0;
+  transition: color 0.3s ease;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: #667eea;
+}
+
+/* Enhanced buttons with modern styling */
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Specific container styles */
 .customer-page-container {
-  /* You can still set a specific max-width here if CustomerPage should be narrower than InventoryPage */
-  /* max-width: 800px; */
+  max-width: 1200px;
 }
 
 .inventory-page-container {
-  /* max-width: 900px; /* From previous. You can remove this to allow it to expand fully */
+  max-width: 1400px;
 }
 
-/* For placeholder pages like Home, Orders, etc. */
+/* For placeholder pages */
 .page-content {
-  text-align: center; /* Keep text centered for these simple pages */
+  text-align: center;
+  max-width: 800px;
 }
 
 .page-content h1 {
-  color: #007bff;
-  margin-bottom: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50%;
+  border-top-color: #667eea;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+  }
+  
+  .page-content,
+  .customer-page-container,
+  .inventory-page-container {
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }

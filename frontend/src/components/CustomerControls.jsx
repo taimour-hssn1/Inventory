@@ -10,7 +10,7 @@ const CustomerControls = ({
   onNewCustomerPhoneChange,
   newCustomerAddress,
   onNewCustomerAddressChange,
-  onAddCustomer // for adding new customer
+  onAddCustomer
 }) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -18,45 +18,77 @@ const CustomerControls = ({
     }
   };
 
+  const handleAddCustomer = () => {
+    if (newCustomerName.trim() && newCustomerPhone.trim()) {
+      onAddCustomer();
+    }
+  };
+
   return (
     <div className="customer-controls-container">
-      {/* Add Customer Fields */}
-      <div className="add-customer-row">
+      <h3>Add New Customer</h3>
+      
+      {/* Add Customer Form */}
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="customerName">Customer Name *</label>
+          <input
+            id="customerName"
+            type="text"
+            placeholder="Enter customer name"
+            value={newCustomerName}
+            onChange={(e) => onNewCustomerNameChange(e.target.value)}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label htmlFor="customerPhone">Phone Number *</label>
+          <input
+            id="customerPhone"
+            type="tel"
+            placeholder="Enter phone number"
+            value={newCustomerPhone}
+            onChange={(e) => onNewCustomerPhoneChange(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+      
+      <div className="form-group">
+        <label htmlFor="customerAddress">Address</label>
         <input
+          id="customerAddress"
           type="text"
-          placeholder="Customer name"
-          className="new-customer-input"
-          value={newCustomerName}
-          onChange={(e) => onNewCustomerNameChange(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Phone"
-          className="new-customer-input"
-          value={newCustomerPhone}
-          onChange={(e) => onNewCustomerPhoneChange(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          className="new-customer-input"
+          placeholder="Enter customer address"
           value={newCustomerAddress}
           onChange={(e) => onNewCustomerAddressChange(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <button className="add-customer-button" onClick={onAddCustomer}>
+      </div>
+
+      <div className="form-actions">
+        <button 
+          className="btn btn-primary" 
+          onClick={handleAddCustomer}
+          disabled={!newCustomerName.trim() || !newCustomerPhone.trim()}
+        >
+          <span>➕</span>
           Add Customer
         </button>
       </div>
 
-      {/* Search Field */}
-      <input
-        type="text"
-        placeholder="Search for customer..."
-        className="search-input"
-        value={searchTerm}
-        onChange={(e) => onSearchChange(e.target.value)}
-      />
+      {/* Search Section */}
+      <div className="search-filter-container">
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search for customers..."
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+        </div>
+      </div>
     </div>
   );
 };
