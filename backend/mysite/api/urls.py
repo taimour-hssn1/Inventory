@@ -25,6 +25,8 @@ urlpatterns = [
     path('delete-order/<int:pk>/', DeleteOrderApi.as_view(), name='delete-order'),
     
     path('add-installment/<int:purchase_id>/', AddInstallmentApi.as_view(), name='add-installment'),
+    path('edit-installment/<int:pk>/', EditInstallmentApi.as_view(), name='edit-installment'),
+    path('delete-installment/<int:pk>/', DeleteInstallmentApi.as_view(), name='delete-installment'),
 ]
 
 

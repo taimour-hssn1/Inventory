@@ -262,4 +262,31 @@ class EditOrderApi(APIView):
             return Response({'message': 'Order updated successfully', 'order': self.serializer_class(purchase).data}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EditInstallmentApi(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = InstallmentSerializer
+
+    def put(self, request, pk):
+        installment = get_object_or_404(Installment, pk=pk)
+        serializer = self.serializer_class(installment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Installment updated successfully', 'installment': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        installment = get_object_or_404(Installment, pk=pk)
+        serializer = self.serializer_class(installment, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Installment updated successfully', 'installment': serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteInstallmentApi(APIView):
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, pk):
+        installment = get_object_or_404(Installment, pk=pk)
+        installment.delete()
+        return Response({'message': 'Installment deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
     
